@@ -29,7 +29,7 @@ def index():
 def prereg():
     pet_data = request.get_json()
     if request.method == 'POST':
-        email = pet_data['name']
+        email = pet_data['email']
         # Check that email does not already exist (not a great query, but works)
         if not db.session.query(User).filter(User.email == email).count():
             reg = User(email)
