@@ -35,6 +35,7 @@ def prereg():
             reg = User(email)
             db.session.add(reg)
             db.session.commit()
+            print('hello')
             return render_template('success.html')
     return render_template('index.html')
 
