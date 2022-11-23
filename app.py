@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 # from flask.ext.sqlalchemy import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
@@ -43,7 +43,25 @@ def prereg():
         # Check that email does not already exist (not a great query, but works)
 
     return render_template('index.html')
+@cross_origin()
+@app.route('/getpets', methods = ['GET'])
+def getpets():
+     all_pets = []
+     pets = User.query.all()
+     for pet in pets:
+          results = {
+                    "pet_id":pet.id,
+                    "email":pet.email,
+        }
+          all_pets.append(results)
 
+     return jsonify(
+            {
+                "success": True,
+                "pets": all_pets,
+                "total_pets": len(pets),
+            }
+        )
 if __name__ == '__main__':
     app.debug = True
     app.run(port=2000, debug=True)
