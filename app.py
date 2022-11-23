@@ -35,13 +35,13 @@ def prereg():
     pet_data = request.get_json()
     if request.method == 'POST':
         email = pet_data['email']
+        reg = User(email=email)
+        db.session.add(reg)
+        db.session.commit()
+        print('hello')
+        return render_template('success.html')
         # Check that email does not already exist (not a great query, but works)
-        if not db.session.query(User).filter(User.email == email).count():
-            reg = User(email)
-            db.session.add(reg)
-            db.session.commit()
-            print('hello')
-            return render_template('success.html')
+
     return render_template('index.html')
 
 if __name__ == '__main__':
